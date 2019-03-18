@@ -50,6 +50,7 @@ public class SocketThread extends Thread {
             PrintWriter printWriter = new PrintWriter(outputStream);// 将输出流包装成打印流
             printWriter.print(response);
             printWriter.flush();
+
             socket.shutdownOutput();// 关闭输出流
 
             // 关闭相对应的资源

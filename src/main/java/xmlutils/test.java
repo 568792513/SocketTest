@@ -23,6 +23,14 @@ public class test {
 
             Element rootElt = doc.getRootElement(); // 获取根节点
             System.out.println("根节点：" + rootElt.getName()); // 拿到根节点的名称
+            System.out.println(rootElt.elementTextTrim("data"));
+            Iterator iterator = rootElt.elementIterator();
+            // 遍历head节点
+            while (iterator.hasNext()) {
+                Element recordEle = (Element) iterator.next();
+                String title = recordEle.elementTextTrim("data"); // 拿到head节点下的子节点title值
+                System.out.println("data:" + title);
+            }
 
             Iterator iter = rootElt.elementIterator("head"); // 获取根节点下的子节点head
 
@@ -79,18 +87,19 @@ public class test {
 
     public static void main(String[] args) {
         test test = new test();
-//        test.readStringXml("<?xml\tversion=\"1.0\"\tencoding=\"GBK\"?>\n" +
-//                "<root> \n" +
-//                "<head>\n" +
-//                "<yx_TrCode>220064</yx_TrCode>\n" +
-//                "<yx_BankId>088889001</yx_BankId>\n" +
-//                "</head>\n" +
-//                "<body><yx_CurrNo>156</yx_CurrNo>\n" +
-//                "<yx_Mode>0</yx_Mode>\n" +
-//                "<yx_CashBatch>0</yx_CashBatch>\n" +
-//                "</body>\n" +
-//                "</root>");
-        FileContentReader fcr = new FileContentReader();
+        test.readStringXml("<?xml\tversion=\"1.0\"\tencoding=\"GBK\"?>\n" +
+                "<root> \n" +
+                "<head>\n" +
+                "<yx_TrCode>220064</yx_TrCode>\n" +
+                "<yx_BankId>088889001</yx_BankId>\n" +
+                "</head>\n" +
+                "<body><yx_CurrNo>156</yx_CurrNo>\n" +
+                "<yx_Mode>0</yx_Mode>\n" +
+                "<yx_CashBatch>0</yx_CashBatch>\n" +
+                "</body>\n" +
+                "<data>abc</data>" +
+                "</root>");
+
     }
 
 }

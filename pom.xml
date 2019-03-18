@@ -7,7 +7,10 @@
     <groupId>hui</groupId>
     <artifactId>SocketTest</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -25,6 +28,12 @@
             <artifactId>jaxen</artifactId>
             <version>1.1.6</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.6.Final</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -33,9 +42,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <archive>
                         <manifest>
-                            <mainClass>communication.ServerMultithreading</mainClass> <!-- 指定入口类路径 -->
+                            <mainClass>newcomm.EchoServer</mainClass> <!-- 指定入口类路径 -->
                         </manifest>
                     </archive>
                     <descriptorRefs>

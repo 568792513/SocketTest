@@ -1,13 +1,84 @@
 package xmlutils;
 
+import enity.request.CommonRequest;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
+import java.lang.reflect.Method;
 import java.util.Iterator;
 
 public class MsgUnpack {
+
+    /**
+     * 报文处理
+     *
+     * @param xmlText
+     */
+    public static void dealXmlRequest(String xmlText) throws Exception {
+        // 解析交易码
+        String transCode = getTransCode(xmlText);
+        if (transCode == null || "".equals(transCode)) {
+            System.out.println("transCode 为空");
+            return;
+        }
+
+        // 解析功能名称
+        String funcName = getFuncName(xmlText);
+        if (funcName == null || "".equals(funcName)) {
+            System.out.println("funcName 为空");
+            return;
+        }
+
+        // 反射根据解析的方法名去执行方法
+        Class<?> c = Class.forName("xmlutils.RequestHandler");
+        Object obj = c.newInstance();
+        //第一个参数写的是方法名,第二个\第三个\...写的是方法参数列表中参数的类型
+        Method method = c.getMethod(funcName);
+        //invoke是执行该方法,并携带参数值
+        method.invoke(xmlText);
+//        switch (transCode) {
+//            case "6001":
+//                RequestHandler.applyCPubKey(xmlText);
+//                break;
+//            default:
+//                break;
+//        }
+    }
+
+    /**
+     * 解析请求公共部分
+     *
+     * @param xmlText
+     */
+    public static CommonRequest dealXmlCommon(String xmlText) {
+        CommonRequest commonRequest = new CommonRequest();
+        Document doc = null;
+        String transCode = "";
+        try {
+            // 将xml字符串解析为xml对象
+            doc = DocumentHelper.parseText(xmlText);
+            // 解析公共报文
+            Element rootEle = doc.getRootElement(); // 获取根节点
+            // 获取根节点下的子节点
+            String functionName = rootEle.elementTextTrim("FunctionName");
+            String functionCode = rootEle.elementTextTrim("FunctionCode");
+            String dateTime = rootEle.elementTextTrim("DateTime");
+            String lockID = rootEle.elementTextTrim("LockID");
+
+            commonRequest.setFunctionName(functionName);
+            commonRequest.setFunctionCode(functionCode);
+            commonRequest.setDateTime(dateTime);
+            commonRequest.setLockID(lockID);
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+
+        return commonRequest;
+    }
+
 
     public void readStringXml(String xml) {
         Document doc = null;
@@ -79,6 +150,12 @@ public class MsgUnpack {
         }
     }
 
+    /**
+     * 从报文中获取transcode
+     *
+     * @param xmlText
+     * @return
+     */
     public static String getTransCode(String xmlText) {
         Document doc = null;
         String transCode = "";
@@ -94,6 +171,28 @@ public class MsgUnpack {
                 Element transCodeEle = (Element) iterator.next();
                 transCode = transCodeEle.elementTextTrim("yx_TrCode"); // 拿到head节点下的子节点
             }
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        return transCode;
+    }
+
+    /**
+     * 从报文中获取FunctionName
+     *
+     * @param xmlText
+     * @return
+     */
+    public static String getFuncName(String xmlText) {
+        Document doc = null;
+        String transCode = "";
+        try {
+            // 将xml字符串解析为xml对象
+            doc = DocumentHelper.parseText(xmlText);
+            // 解析公共报文
+            Element rootEle = doc.getRootElement(); // 获取根节点
+            transCode = rootEle.elementTextTrim("FunctionName"); // 获取根节点下的子节点
+
         } catch (DocumentException e) {
             e.printStackTrace();
         }
