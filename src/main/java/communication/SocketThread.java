@@ -1,5 +1,8 @@
 package communication;
 
+import xmlutils.FileContentReader;
+import xmlutils.MsgUnpack;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,14 +34,21 @@ public class SocketThread extends Thread {
             String info = "";
             while ((temp = bufferedReader.readLine()) != null) {
                 info += temp;
-                System.out.println("已接收到客户端连接");
-                System.out.println("服务端接收到客户端信息：" + info + ",当前客户端ip为："
-                        + socket.getInetAddress().getHostAddress());
             }
+            System.out.println("已接收到客户端连接");
+            System.out.println("服务端接收到客户端信息：" + info + ",当前客户端ip为："
+                    + socket.getInetAddress().getHostAddress());
 
-            OutputStream outputStream = socket.getOutputStream();// 获取一个输出流，向服务端发送信息
+            // 根据接收到的报文获取交易码
+            String transCode = MsgUnpack.getTransCode(info);
+
+            // 通过解析到的交易码读取文件
+            FileContentReader fcr = new FileContentReader();
+            String response = fcr.readFile(transCode);
+
+            OutputStream outputStream = socket.getOutputStream();// 获取一个输出流，向客户端发送信息
             PrintWriter printWriter = new PrintWriter(outputStream);// 将输出流包装成打印流
-            printWriter.print("你好，服务端已接收到您的信息");
+            printWriter.print(response);
             printWriter.flush();
             socket.shutdownOutput();// 关闭输出流
 

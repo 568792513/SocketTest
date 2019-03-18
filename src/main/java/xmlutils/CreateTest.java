@@ -14,6 +14,7 @@ public class CreateTest {
 
         Element product = root.addElement("product");
         product.addAttribute("name", "QQ");
+        product.setText("text");
 
         Element account = product.addElement("account");
         account.addAttribute("id", "123456789");

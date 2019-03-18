@@ -79,17 +79,18 @@ public class test {
 
     public static void main(String[] args) {
         test test = new test();
-        test.readStringXml("<?xml\tversion=\"1.0\"\tencoding=\"GBK\"?>\n" +
-                "<root> \n" +
-                "<head>\n" +
-                "<yx_TrCode>220064</yx_TrCode>\n" +
-                "<yx_BankId>088889001</yx_BankId>\n" +
-                "</head>\n" +
-                "<body><yx_CurrNo>156</yx_CurrNo>\n" +
-                "<yx_Mode>0</yx_Mode>\n" +
-                "<yx_CashBatch>0</yx_CashBatch>\n" +
-                "</body>\n" +
-                "</root>");
+//        test.readStringXml("<?xml\tversion=\"1.0\"\tencoding=\"GBK\"?>\n" +
+//                "<root> \n" +
+//                "<head>\n" +
+//                "<yx_TrCode>220064</yx_TrCode>\n" +
+//                "<yx_BankId>088889001</yx_BankId>\n" +
+//                "</head>\n" +
+//                "<body><yx_CurrNo>156</yx_CurrNo>\n" +
+//                "<yx_Mode>0</yx_Mode>\n" +
+//                "<yx_CashBatch>0</yx_CashBatch>\n" +
+//                "</body>\n" +
+//                "</root>");
+        FileContentReader fcr = new FileContentReader();
     }
 
 }

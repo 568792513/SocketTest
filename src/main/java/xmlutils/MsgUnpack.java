@@ -9,7 +9,7 @@ import java.util.Iterator;
 
 public class MsgUnpack {
 
-    private void readStringXml(String xml) {
+    public void readStringXml(String xml) {
         Document doc = null;
         try {
 
@@ -79,5 +79,25 @@ public class MsgUnpack {
         }
     }
 
+    public static String getTransCode(String xmlText) {
+        Document doc = null;
+        String transCode = "";
+        try {
+            // 将xml字符串解析为xml对象
+            doc = DocumentHelper.parseText(xmlText);
+            // 解析公共报文
+            Element rootEle = doc.getRootElement(); // 获取根节点
+            Iterator iterator = rootEle.elementIterator("head"); // 获取根节点下的子节点
+
+            // 遍历head节点
+            while (iterator.hasNext()) {
+                Element transCodeEle = (Element) iterator.next();
+                transCode = transCodeEle.elementTextTrim("yx_TrCode"); // 拿到head节点下的子节点
+            }
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        return transCode;
+    }
 
 }
