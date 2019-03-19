@@ -35,9 +35,9 @@ public class MsgUnpack {
         Class<?> c = Class.forName("xmlutils.RequestHandler");
         Object obj = c.newInstance();
         //第一个参数写的是方法名,第二个\第三个\...写的是方法参数列表中参数的类型
-        Method method = c.getMethod(funcName);
+        Method method = c.getMethod(funcName, String.class);
         //invoke是执行该方法,并携带参数值
-        method.invoke(xmlText);
+        method.invoke(obj, xmlText);
 //        switch (transCode) {
 //            case "6001":
 //                RequestHandler.applyCPubKey(xmlText);
@@ -164,13 +164,8 @@ public class MsgUnpack {
             doc = DocumentHelper.parseText(xmlText);
             // 解析公共报文
             Element rootEle = doc.getRootElement(); // 获取根节点
-            Iterator iterator = rootEle.elementIterator("head"); // 获取根节点下的子节点
+            transCode = rootEle.elementTextTrim("FunctionCode"); // 获取根节点下的子节点
 
-            // 遍历head节点
-            while (iterator.hasNext()) {
-                Element transCodeEle = (Element) iterator.next();
-                transCode = transCodeEle.elementTextTrim("yx_TrCode"); // 拿到head节点下的子节点
-            }
         } catch (DocumentException e) {
             e.printStackTrace();
         }

@@ -28,7 +28,6 @@ public class FileContentReader {
             // 按行读取，结束的判断是是否为null，按字节或者字符读取时结束的标志是-1
             while ((string = bufferedReader.readLine()) != null) {
                 sb.append(string);
-                System.out.println(string);
             }
             // 注意这两个关闭的顺序
             bufferedReader.close();

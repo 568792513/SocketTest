@@ -68,12 +68,13 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
         System.out.println("客户端收到服务器数据:" + rev);
         // 根据接收到的报文获取交易码
         String transCode = MsgUnpack.getTransCode(rev);
-//        MsgUnpack.dealXmlRequest(rev);
+        MsgUnpack.dealXmlRequest(rev);
 
         // 通过解析到的交易码读取文件
         FileContentReader fcr = new FileContentReader();
         String response = fcr.readFile(transCode);
         ctx.write(response);
+        System.out.println("服务端返回客户端数据：" + response);
         ctx.flush();
     }
 

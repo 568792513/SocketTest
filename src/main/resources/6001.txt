@@ -1,0 +1,9 @@
+<root>
+    <FunctionName>ApplyCPubKey</FunctionName>
+    <FunctionCode>6001</FunctionCode>
+    <DateTime>20190104164143</DateTime>
+    <LockID>abc1234567</LockID>
+    <PublicKey>asdxizcjio124215asd</PublicKey>
+    <ReturnCode>000000</ReturnCode>
+    <ReturnMsg>success</ReturnMsg>
+</root>
