@@ -16,19 +16,26 @@ public class MsgUnpack {
      *
      * @param xmlText
      */
-    public static void dealXmlRequest(String xmlText) throws Exception {
+    public static String dealXmlRequest(String xmlText) throws Exception {
+
+        // 处理报文长度
+        xmlText = xmlText.trim();
+        // 截取前10位 （报文长度）
+        String xmlLen = xmlText.substring(0,10);
+
+        xmlText = xmlText.substring(10);
         // 解析交易码
         String transCode = getTransCode(xmlText);
         if (transCode == null || "".equals(transCode)) {
             System.out.println("transCode 为空");
-            return;
+            return "error";
         }
 
         // 解析功能名称
         String funcName = getFuncName(xmlText);
         if (funcName == null || "".equals(funcName)) {
             System.out.println("funcName 为空");
-            return;
+            return "error";
         }
 
         // 反射根据解析的方法名去执行方法
@@ -37,14 +44,8 @@ public class MsgUnpack {
         //第一个参数写的是方法名,第二个\第三个\...写的是方法参数列表中参数的类型
         Method method = c.getMethod(funcName, String.class);
         //invoke是执行该方法,并携带参数值
-        method.invoke(obj, xmlText);
-//        switch (transCode) {
-//            case "6001":
-//                RequestHandler.applyCPubKey(xmlText);
-//                break;
-//            default:
-//                break;
-//        }
+        return (String) method.invoke(obj, xmlText);
+
     }
 
     /**
