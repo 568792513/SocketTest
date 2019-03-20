@@ -8,7 +8,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RequestHandler {
@@ -55,7 +56,7 @@ public class RequestHandler {
      */
     public static String ApplyTMK(String xmlText) throws Exception {
 
-        Map<String, String> tempValueMap = new HashMap<>();
+        Map<String, String> tempValueMap = new LinkedHashMap<String, String>();
 
         Document doc = null;
         String transCode = "";
@@ -78,16 +79,19 @@ public class RequestHandler {
             String LockSignData = rootEle.elementTextTrim("LockSignData");
             tempValueMap.put("LockSignData",LockSignData);
 
+            // do things
+
 
         } catch (DocumentException e) {
             e.printStackTrace();
         }
 
+        return MsgPack.createReturnMessage(tempValueMap);
 
         // 通过解析到的交易码读取文件
-        FileContentReader fcr = new FileContentReader();
-        String response = fcr.readFile(tempValueMap.get("FunctionCode"));
-        return response;
+//        FileContentReader fcr = new FileContentReader();
+//        String response = fcr.readFile(tempValueMap.get("FunctionCode"));
+//        return response;
     }
 
 
@@ -99,7 +103,7 @@ public class RequestHandler {
      */
     public static String ApplyWMK(String xmlText) throws Exception {
 
-        Map<String, String> tempValueMap = new HashMap<>();
+        Map<String, String> tempValueMap = new LinkedHashMap<String, String>();
 
         Document doc = null;
         String transCode = "";
@@ -131,7 +135,7 @@ public class RequestHandler {
      */
     public static String ApplyDMK(String xmlText) throws Exception {
 
-        Map<String, String> tempValueMap = new HashMap<>();
+        Map<String, String> tempValueMap = new LinkedHashMap<String, String>();
 
         Document doc = null;
         String transCode = "";
@@ -163,7 +167,7 @@ public class RequestHandler {
      */
     public static String ApplyOTC(String xmlText) throws Exception {
 
-        Map<String, String> tempValueMap = new HashMap<>();
+        Map<String, String> tempValueMap = new LinkedHashMap<String, String>();
 
         Document doc = null;
         String transCode = "";
@@ -221,7 +225,7 @@ public class RequestHandler {
      */
     public static String ApplyLockConfig(String xmlText) throws Exception {
 
-        Map<String, String> tempValueMap = new HashMap<>();
+        Map<String, String> tempValueMap = new LinkedHashMap<String, String>();
 
         Document doc = null;
         String transCode = "";
@@ -253,7 +257,7 @@ public class RequestHandler {
      */
     public static String SendActiveInfo(String xmlText) throws Exception {
 
-        Map<String, String> tempValueMap = new HashMap<>();
+        Map<String, String> tempValueMap = new LinkedHashMap<String, String>();
 
         Document doc = null;
         String transCode = "";
@@ -271,8 +275,6 @@ public class RequestHandler {
 //            闭锁码
             String CloseInfo = rootEle.elementTextTrim("CloseInfo");
             tempValueMap.put("CloseInfo",CloseInfo);
-
-
 
 
         } catch (DocumentException e) {
@@ -294,7 +296,7 @@ public class RequestHandler {
      */
     public static String ReportStatus(String xmlText) throws Exception {
 
-        Map<String, String> tempValueMap = new HashMap<>();
+        Map<String, String> tempValueMap = new LinkedHashMap<String, String>();
 
         Document doc = null;
         String transCode = "";
@@ -309,6 +311,7 @@ public class RequestHandler {
 //            锁具状态
             String LockStatus = rootEle.elementTextTrim("LockStatus");
             tempValueMap.put("LockStatus",LockStatus);
+
 
 
         } catch (DocumentException e) {
@@ -329,7 +332,7 @@ public class RequestHandler {
      */
     public static String SyncTime(String xmlText) throws Exception {
 
-        Map<String, String> tempValueMap = new HashMap<>();
+        Map<String, String> tempValueMap = new LinkedHashMap<String, String>();
 
         Document doc = null;
         String transCode = "";
@@ -361,7 +364,7 @@ public class RequestHandler {
      */
     public static String ReportCloseCode(String xmlText) throws Exception {
 
-        Map<String, String> tempValueMap = new HashMap<>();
+        Map<String, String> tempValueMap = new LinkedHashMap<String, String>();
 
         Document doc = null;
         String transCode = "";

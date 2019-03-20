@@ -18,7 +18,7 @@ public class ServerTest {
         ExecutorService threadPool = Executors.newFixedThreadPool(100);
 
         while (true) {
-            Socket socket = server.accept();
+            final Socket socket = server.accept();
 
             Runnable runnable = new Runnable() {
                 @Override

@@ -22,8 +22,9 @@ public class EchoServer {
     }
 
     public void start() throws Exception {
+        // nio线程租 用于接收来自客户端的连接
         EventLoopGroup bossGroup = new NioEventLoopGroup();
-
+        // nio线程租 用于处理已被接收的连接
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             ServerBootstrap sb = new ServerBootstrap();
@@ -36,7 +37,7 @@ public class EchoServer {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
 
-                            System.out.println("信息：有一客户端链接到本服务端" + "IP:" + ch.localAddress().getHostName() + "Port:" + ch.localAddress().getPort());
+                            System.out.println("信息：有一客户端链接到本服务端" + "IP:" + ch.remoteAddress().toString() + "Port:" + ch.localAddress().getPort());
                             ch.pipeline().addLast(new StringEncoder(Charset.forName("UTF-8")));
                             ch.pipeline().addLast(new EchoServerHandler()); // 客户端触发操作
                             ch.pipeline().addLast(new ByteArrayEncoder());

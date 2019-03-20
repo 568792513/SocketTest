@@ -21,7 +21,7 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
      *
      */
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(ctx.channel().localAddress().toString() + " 通道已激活！");
+        System.out.println(ctx.channel().remoteAddress().toString() + " 通道已激活！");
     }
 
     /*
@@ -33,29 +33,12 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
      *
      */
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(ctx.channel().localAddress().toString() + " 通道不活跃！");
+        System.out.println(ctx.channel().remoteAddress().toString() + " 通道不活跃！");
         // 关闭流
 
+
     }
 
-    /**
-     *
-     * @author Taowd
-     * 此处用来处理收到的数据中含有中文的时  出现乱码的问题
-     * 2017年8月31日 下午7:57:28
-     * @param buf
-     * @return
-     */
-    private String getMessage(ByteBuf buf) {
-        byte[] con = new byte[buf.readableBytes()];
-        buf.readBytes(con);
-        try {
-            return new String(con, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     /**
      * 功能：读取服务器发送过来的信息
@@ -95,5 +78,22 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         ctx.close();
         System.out.println("异常信息：\r\n" + cause.getMessage());
+    }
+
+    /**
+     * @author Taowd
+     * 此处用来处理收到的数据中含有中文的时  出现乱码的问题
+     * @param buf
+     * @return
+     */
+    private String getMessage(ByteBuf buf) {
+        byte[] con = new byte[buf.readableBytes()];
+        buf.readBytes(con);
+        try {
+            return new String(con, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
