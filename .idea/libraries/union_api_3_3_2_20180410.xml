@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="union-api-3.3.2.20180410">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/union-api-3.3.2.20180410.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/union-api-3.3.2.20180410.jar!/" />
+    </SOURCES>
+  </library>
+</component>

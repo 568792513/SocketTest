@@ -1,5 +1,6 @@
 package xmlutils;
 
+import com.union.api.UnionCSSP;
 import common.PropertyUtil;
 import enity.request.ApplyCPubKeyRequest;
 import enity.request.CommonRequest;
@@ -14,6 +15,8 @@ import java.util.Map;
 
 public class RequestHandler {
 
+    private static UnionCSSP unionCSSP;
+    private static Integer resultCode;
     /**
      * 申请中心公钥
      * @param xmlText
@@ -21,12 +24,12 @@ public class RequestHandler {
      */
     public static String ApplyCPubKey(String xmlText) throws Exception {
 
-        ApplyCPubKeyRequest applyCPubKeyRequest = new ApplyCPubKeyRequest();
-
+        Map<String, String> tempValueMap = new LinkedHashMap<String, String>();
+//        ApplyCPubKeyRequest applyCPubKeyRequest = new ApplyCPubKeyRequest();
         // 解析公共部分
-        CommonRequest commonRequest = MsgUnpack.dealXmlCommon(xmlText);
+//        CommonRequest commonRequest = MsgUnpack.dealXmlCommon(xmlText);
         // 将解析的值付给子类
-        PropertyUtil.fatherToChild(commonRequest, applyCPubKeyRequest);
+//        PropertyUtil.fatherToChild(commonRequest, applyCPubKeyRequest);
         // 解析非公共部分
         try {
             Document doc = null;
@@ -35,17 +38,45 @@ public class RequestHandler {
             // 解析公共报文
             Element rootEle = doc.getRootElement(); // 获取根节点
             // 获取根节点下的子节点
-            String publicKey = rootEle.elementTextTrim("PublicKey");
-            applyCPubKeyRequest.setPublicKey(publicKey);
+//            String publicKey = rootEle.elementTextTrim("PublicKey");
+//            applyCPubKeyRequest.setPublicKey(publicKey);
+//            applyCPubKeyRequest.getLockID();
+//          解析公共部分
+            parseCommonXml(rootEle, tempValueMap);
 
+            // 解析非公共部分
+            String PublicKey = rootEle.elementTextTrim("PublicKey");
+            tempValueMap.put("PublicKey",PublicKey);
+
+            // 获取锁具ID
+            String LockID = tempValueMap.get("LockID");
+            // 调用  获取中心公钥
+            UnionCSSP.Recv recv = unionCSSP.UnionGetCenterPK( LockID + ".PK");
+            String pkValue = recv.getPkValue();
+
+            // 调用  导入机构SM2公钥
+            UnionCSSP.Recv recv1 = unionCSSP.UnionGenAgent( LockID + ".SM2", LockID + ".ZMK", LockID + ".ZEK", LockID + ".ZEK2", pkValue);
+            resultCode = recv1.getResponseCode();
+
+            // 添加返回字段值
+            // 返回码  错误信息
+            if (resultCode != 0) {
+                tempValueMap.put("ReturnCode", "0000");
+                tempValueMap.put("ReturnMsg", "success");
+
+            } else {
+                tempValueMap.put("ReturnCode", resultCode.toString());
+                tempValueMap.put("ReturnMsg", "error");
+            }
+
+            // 公钥信息
+            tempValueMap.put("PublicKey", pkValue);
 
         } catch (DocumentException e) {
             e.printStackTrace();
         }
-        // 通过解析到的交易码读取文件
-        FileContentReader fcr = new FileContentReader();
-        String response = fcr.readFile(applyCPubKeyRequest.getFunctionCode());
-        return response;
+
+        return MsgPack.createReturnMessage(tempValueMap);
     }
 
     /**

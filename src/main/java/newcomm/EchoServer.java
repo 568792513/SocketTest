@@ -53,7 +53,15 @@ public class EchoServer {
     }
 
     public static void main(String[] args) throws Exception {
-
-        new EchoServer(8888).start(); // 启动
+        int port = 8888;
+        // 根据传入的参数确定端口号  默认8888
+        if (args != null && args.length > 0) {
+            try {
+                port = Integer.valueOf(args[0]);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        new EchoServer(port).start(); // 启动
     }
 }

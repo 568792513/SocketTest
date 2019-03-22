@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="union-api-demo-locking">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/union-api-demo-locking.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/union-api-demo-locking.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/union-api-demo-locking.jar!/com/union/api" />
+    </SOURCES>
+  </library>
+</component>
